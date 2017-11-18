@@ -25,3 +25,12 @@ Google maps api to pull information about a certain location. Dark Sky API for g
 
 handlebars
 when using handlebars partials, nodemon server.js -e js,hbs
+https://pacific-plains-65485.herokuapp.com/
+
+mocha js = testing
+
+spies is a testing suite used to simulate functions
+
+Database:
+SQL - Table structure. each user is referred as a Row/Record
+NoSQL - Collection style (similar to JSON objects). each 'user' is considered a document
