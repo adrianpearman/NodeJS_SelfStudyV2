@@ -8,9 +8,17 @@ let { Todo } = require('./models/Todo');
 let app = express();
 const PORT = 3000
 
-app.use(bodyParser.json());
+app.use(bodyParser.json()); //middleware used to send the request as json to the database
 
-app.post('/todos', (req, res) => {
+app.get('/todos', (req, res) => {
+  Todo.find().then((todos) => {
+    res.send({todos})
+  }, (error) => {
+    res.status(400).send(error)
+  })
+})
+
+app.post('/todos', (req, res) => { //this will create a new todo when the post request is sent
   console.log(req.body);
   let todo = new Todo({
     text: req.body.text
@@ -19,7 +27,8 @@ app.post('/todos', (req, res) => {
   todo.save().then((doc) => {
     res.send(doc)
   }, (error) => {
-    res.send(error)
+    // res.send(error)
+    res.status(400).send(error) //will return an error message with the proper http code
   })
 })
 

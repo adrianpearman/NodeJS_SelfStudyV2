@@ -11,7 +11,8 @@ let Todo = mongoose.model('Todo', {
   },
   completed: {
     type: Boolean,
-    required: true
+    // required: true
+    required: false
   },
   completedAt: {
     type: Number,
