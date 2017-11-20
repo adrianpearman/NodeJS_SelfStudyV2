@@ -1,3 +1,13 @@
+let env = process.env.NODE_ENV || 'development';
+//--- SETS UP DEVELOPMENT VS TEST DATABASES ---///
+if (env === 'development') {
+  process.env.PORT = 4000
+  process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp'
+}else if (env === 'test') {
+  process.env.PORT = 4000
+  process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoAppTest'
+}
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const _ =require('lodash')
@@ -8,7 +18,7 @@ let { User } = require('./models/User');
 let { Todo } = require('./models/Todo');
 
 let app = express();
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT
 
 app.use(bodyParser.json()); //middleware used to send the request as json to the database
 

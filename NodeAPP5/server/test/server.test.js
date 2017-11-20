@@ -7,12 +7,20 @@ const { Todo } = require('./../models/Todo');
 
 const TODOS = [
   {text: 'test',
+  completed: true,
+  completedAt: 222,
   _id: new ObjectID()},
   {text: 'test',
+  completed: true,
+  completedAt: 222,
   _id: new ObjectID()},
   {text: 'test',
+  completed: true,
+  completedAt: 222,
   _id: new ObjectID()},
   {text: 'test',
+  completed: true,
+  completedAt: 222,
   _id: new ObjectID()}
 ]
 
@@ -22,6 +30,7 @@ beforeEach((done) => {
   }).then(() => done())
 })
 
+//--- Testing: CREATING TODOS ---//
 describe('POST /todos', () => {
   it('should test todo text', (done) => {
     let text = 'Test todo text';
@@ -63,6 +72,7 @@ describe('POST /todos', () => {
   })
 });
 
+//--- Testing: GETTING TODOS ---//
 describe('GET /todos', () => {
   it('should get all todos', (done) => {
     request(app)
@@ -75,6 +85,7 @@ describe('GET /todos', () => {
   })
 })
 
+//--- Testing: GETTING SPECIFIC TODOS ---//
 describe('GET /todos/:id', () => {
   it('should return todo document', (done) => {
     request(app)
@@ -101,6 +112,7 @@ describe('GET /todos/:id', () => {
   })
 })
 
+//--- Testing: DELETING TODOS ---//
 describe('DELETE /todos/:id', () => {
   it('should remove as todo', (done) => {
     let hexId = TODOS[2]._id.toHexString()
@@ -135,6 +147,47 @@ describe('DELETE /todos/:id', () => {
     request(app)
     .delete('/todos/kjbcsjh')
     .expect(404)
+    .end(done)
+  })
+})
+
+//--- Testing: UPDATING TODOS ---//
+describe('PATCH /todos/:id', () => {
+  it('should update the todo', (done) => {
+    let hexID = TODOS[0]._id.toHexString()
+    let text = 'this should be the new text'
+
+    request(app)
+    .patch(`/todos/${hexID}`)
+    .send({
+      completed: true,
+      text: text
+    })
+    .expect(200)
+    .expect((res) => {
+      expect(res.body.todo.text).toBe(text)
+      expect(res.body.todo.completed).toBe(true)
+      expect(res.body.todo.completedAt).toBeA('number')
+    })
+    .end(done)
+  })
+
+  it('should clear completedAt when todo is not completed', (done) => {
+    let hexID = TODOS[1]._id.toHexString()
+    let text = 'this should be the new text!!!'
+
+    request(app)
+    .patch(`/todos/${hexID}`)
+    .send({
+      completed: false,
+      text: text
+    })
+    .expect(200)
+    .expect((res) => {
+      expect(res.body.todo.text).toBe(text)
+      expect(res.body.todo.completed).toBe(false)
+      expect(res.body.todo.completedAt).toNotExist()
+    })
     .end(done)
   })
 })
