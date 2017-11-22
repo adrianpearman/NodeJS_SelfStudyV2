@@ -11,11 +11,12 @@ if (env === 'development') {
 const express = require('express');
 const bodyParser = require('body-parser');
 const _ =require('lodash')
+const {ObjectID} = require('mongodb')
 
-let {ObjectID} = require('mongodb')
 let { mongoose } = require('./db/mongoose');
-let { User } = require('./models/User');
 let { Todo } = require('./models/Todo');
+let { User } = require('./models/User');
+let { authenticate } = require('./middlewares/authenticate')
 
 let app = express();
 const PORT = process.env.PORT
@@ -106,6 +107,39 @@ app.patch('/todos/:id', (req, res) => {
     res.send({todo})
   }).catch((error) => {
     res.status(404).send()
+  })
+})
+
+//--- USERS ---//
+//--- Creating a new user ---//
+app.post('/users', (req, res) => { //this will create a new user when the post request is sent
+  let body = _.pick(req.body, ['email', 'password'])
+  let user = new User(body);
+
+  user.save().then(() => {
+    return user.generateAuthToken()
+  }).then((token) => {
+    res.header('x-auth', token).send(user)
+  }).catch((error) => {
+    res.status(400).send(error)
+  })
+})
+
+//--- Authenticating the x-auth header ---//
+app.get('/users/me',authenticate, (req, res) => {
+  res.send(req.user)
+})
+
+//--- Logging in a user ---//
+app.post('/users/login', (req, res) => {
+  let body = _.pick(req.body, ['email', 'password'])
+
+  User.findByCredentials(body.email, body.password).then((user) => {
+    return user.generateAuthToken().then((token) => {
+      res.header('x-auth', token).send(user)
+    })
+  }).catch((error) => {
+    res.status(400).send()
   })
 })
 

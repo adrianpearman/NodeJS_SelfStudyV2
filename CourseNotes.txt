@@ -34,3 +34,8 @@ spies is a testing suite used to simulate functions
 Database:
 SQL - Table structure. each user is referred as a Row/Record
 NoSQL - Collection style (similar to JSON objects). each 'user' is considered a document
+
+ //--- Model Methods ---//
+ User.findByToken
+ //--- Instance Methods ---//
+ user.generateAuthToken

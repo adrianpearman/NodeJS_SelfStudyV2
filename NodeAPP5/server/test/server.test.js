@@ -4,32 +4,11 @@ const { ObjectID } = require('mongodb');
 
 const { app } = require('./../server');
 const { Todo } = require('./../models/Todo');
+const { User } = require('./../models/User');
+const { TODOS, populateTodos, USERS, populateUsers } = require('./seed/seed')
 
-const TODOS = [
-  {text: 'test',
-  completed: true,
-  completedAt: 222,
-  _id: new ObjectID()},
-  {text: 'test',
-  completed: true,
-  completedAt: 222,
-  _id: new ObjectID()},
-  {text: 'test',
-  completed: true,
-  completedAt: 222,
-  _id: new ObjectID()},
-  {text: 'test',
-  completed: true,
-  completedAt: 222,
-  _id: new ObjectID()}
-]
-
-beforeEach((done) => {
-  Todo.remove({}).then(() => {
-    return Todo.insertMany(TODOS)
-  }).then(() => done())
-})
-
+beforeEach(populateTodos)
+beforeEach(populateUsers)
 //--- Testing: CREATING TODOS ---//
 describe('POST /todos', () => {
   it('should test todo text', (done) => {
@@ -190,4 +169,81 @@ describe('PATCH /todos/:id', () => {
     })
     .end(done)
   })
+})
+
+//--- Testing: PRIVATE ROUTES ---//
+describe('GET /users/me', () => {
+  it('should return user if authenticated', (done) => {
+    request(app)
+      .get('/users/me')
+      .set('x-auth', USERS[0].tokens[0].token)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body._id).toBe(USERS[0]._id.toHexString())
+        expect(res.body.email).toBe(USERS[0].email)
+      })
+      .end(done)
+  })
+
+  it('should return 404 if user is not authenticated', (done) => {
+    request(app)
+    .get('/users/me')
+    .expect(401)
+    .expect((res) => {
+      expect(res.body).toEqual({})
+    })
+    .end(done)
+  })
+})
+
+
+//--- Testing: CREATING USERS ---//
+describe('POST /users', () => {
+  it('should create a user', (done) => {
+    let email = 'testtest@test.com'
+    let password = 'password123'
+
+    request(app)
+    .post('/users')
+    .send({email, password})
+    .expect(200)
+    .expect((res) => {
+      expect(res.headers['x-auth']).toExist()
+      expect(res.body._id).toExist();
+      expect(res.body.email).toBe(email)
+    })
+    .end((error) => {
+      if (error) {
+        return done(error)
+      }
+
+      User.findOne({email}).then((user) => {
+        expect(user).toExist();
+        expect(user.password).toNotBe(password)
+        done()
+      })
+    })
+  });
+
+  it('should return validation error if request is invalid', (done) => {
+    request(app)
+    .post('/users')
+    .send({
+      email: 'kajhskjh',
+      password: 'sjdjhds'
+    })
+    .expect(400)
+    .end(done)
+  });
+
+  it('should not create user if email in use', (done) => {
+    request(app)
+    .post('/users')
+    .send({
+      email: USERS[0].email,
+      password: 'kjsdlad'
+    })
+    .expect(400)
+    .end(done)
+  });
 })
