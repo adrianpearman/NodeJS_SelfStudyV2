@@ -12,29 +12,27 @@ const USERS = [
   password: 'password1',
   tokens:[{
     access: 'auth',
-    token: jwt.sign({_id: userOneID, access: 'auth'}, 'abc123').toString()
+    token: jwt.sign({_id: userOneID, access: 'auth'}, process.env.JWT_SECRET).toString()
 }]},
 {_id: userTwoID,
-email: 'test2@test.com',
-password: 'password2'
+  email: 'test2@test.com',
+  password: 'password2',
+  tokens:[{
+    access: 'auth',
+    token: jwt.sign({_id: userTwoID, access: 'auth'}, process.env.JWT_SECRET).toString()
+  }]
 }]
 
 const TODOS = [
   {text: 'test',
   completed: true,
   completedAt: 222,
+  _creator: userOneID,
   _id: new ObjectID()},
   {text: 'test',
   completed: true,
   completedAt: 222,
-  _id: new ObjectID()},
-  {text: 'test',
-  completed: true,
-  completedAt: 222,
-  _id: new ObjectID()},
-  {text: 'test',
-  completed: true,
-  completedAt: 222,
+  _creator: userTwoID,
   _id: new ObjectID()}
 ]
 
