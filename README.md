@@ -1,5 +1,5 @@
 # NodeJS_SelfStudyV2
-#NodeAPP1
+# NodeAPP1
 Purpose: Introduction to Node with the concepts of filesync to a locale file. Creating a CRUD note system.
 
 Packages Used:
@@ -7,7 +7,7 @@ Packages Used:
 "yargs": used to create command line interface for the node project
 
 
-#NodeAPP2
+# NodeAPP2
 Purpose: This application is builds off of some of basic information discussed in the first application. This application will return the information provide by a user and display the weather of in user's input. The folder contains to examples. the first(app.js) provides the functionality with no promise values where the second(app-promise.js) provides a promised based option.
 
 Packages Used:
@@ -20,7 +20,7 @@ DarkSky - for weather information
 GoogleMaps - for fetching the latitude and longitude of an address
 
 
-#NodeAPP3
+# NodeAPP3
 Purpose: The purpose of the application is a low level introduction connecting Node to a front end application. For the purpose of this application, we use Handlebar to create the connection between front and backend
 
 Packages Used:
@@ -28,7 +28,7 @@ Packages Used:
 "hbs": HandleBar.js a framework used to create partials and pass information to the front end
 
 
-#NodeAPP4
+# NodeAPP4
 Purpose: Introduction to unit testing in Node. The platform of choice is Mocha with supertest used for request handling and expect for test assertion.
 
 Packages Used:
@@ -39,7 +39,7 @@ Packages Used:
 "supertest": "^3.0.0"
 
 
-#NodeAPP5
+# NodeAPP5
 Purpose: Exploring commonly used security protocols in creating node applications. This application creates a TODOs application that is able to provide security for information held by different users. The application also highlights key differences between production, development and testing environments.
 
 Packages Used:
@@ -57,7 +57,7 @@ Packages Used:
 "supertest": Provides a high-level abstraction for testing HTTP
 
 
-#NodeAPP6
+# NodeAPP6
 Purpose: Creating a real time web application that allows for users to enter chat rooms and talk with other individuals in the same room. Highlighting to a higher degree the functions of the previous examples. The application utilizes front and backend technologies to
 
 Live Example: https://thawing-anchorage-24776.herokuapp.com/
@@ -71,7 +71,7 @@ Packages Used:
 "nodemon": Used to auto reload the server after a change
 
 
-#NodeAPP7
+# NodeAPP7
 Purpose: This project contains an application that is able to perform currency exchanges while providing the countries where the exchanged currency is available to be used. The purpose of this application was to show how we can take advantage of the 'async await' functionality in comparison to the passing Promises.
 
 Packages Used:
@@ -82,13 +82,13 @@ fixer.io - To receive the exchange rates of a currency
 restcountries.eu - To provide information on where the currency can be used
 
 
-#NodeMYSQL
+# NodeMYSQL
 Purpose: Simple mock connection application to highlight the ability to connect to a MYSQL application using Node.
 
 Packages Used:
 'mysql'
 
 
-#NodePostgreSQL
+# NodePostgreSQL
 Purpose:
 Packages Used:
