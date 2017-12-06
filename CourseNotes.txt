@@ -29,6 +29,8 @@ https://pacific-plains-65485.herokuapp.com/
 
 mocha js = testing
 
+rewire - rewire adds a special setter and getter to modules so you can modify their behaviour for better unit testing. You may. inject mocks for other modules or globals like process; inspect private variables; override variables within the module.
+
 spies is a testing suite used to simulate functions
 
 Database:
@@ -39,3 +41,13 @@ NoSQL - Collection style (similar to JSON objects). each 'user' is considered a 
  User.findByToken
  //--- Instance Methods ---//
  user.generateAuthToken
+
+
+
+
+ #6
+ https://thawing-anchorage-24776.herokuapp.com/
+ things to potentially add:
+ making user names unique
+ making groups case sensitive
+ adding a dropdown to show active rooms
